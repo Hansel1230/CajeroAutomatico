@@ -4,6 +4,7 @@ namespace CajeroAutomatico
     public class Menu
     {
         static ModoDeDispensacion modo = new ModoDeDispensacion(9);
+        //int opcion = 0;
         public static void menu()
         {
             Console.WriteLine("Bienvenido a su cajero preferido!!\n\n");
@@ -12,28 +13,47 @@ namespace CajeroAutomatico
             switch (opcion)
             {
                 case 1:
-                    Console.WriteLine("Modo de dispensacion\n\n");
+                    Console.WriteLine("\nModo de dispensacion\n\n");
                     menudispensacion();
+                    Console.WriteLine("\n\nPulse enter.");
+                    Console.Clear();
                     break;
 
                 case 2:
-                    Console.WriteLine("Retiro de dinero\n\n");
+                    Console.WriteLine("\nRetiro de dinero\n\n");
                     menuRetiro();
-
-                    Console.WriteLine("Para Continuar (1)\nPara salir (2)\n\nSeleccione la opcion deseada:");
+                    modo.Modo3();
+                    Console.WriteLine("\n\nPara Continuar (1)\nPara salir (2)\n\nSeleccione la opcion deseada:");
                     int  salir = Convert.ToInt16(Console.ReadLine());
                     salida(salir);
                     break;
             }
+            menu();
         }
-
         public static void menudispensacion()
         {
-            Console.WriteLine("1-De 200 y 1000\n2-De 100 y 500\n3-Eficiente: 100,200,500 y 1000\n Seleccione la opcion deseada:");
+            Console.WriteLine("1-De 200 y 1000\n2-De 100 y 500\n3-Eficiente: 1000,500,200 y 100  \n\nSeleccione la opcion deseada:");
             int opcion = Convert.ToInt16(Console.ReadLine());
-            //ModoDeDispensacion(opcion);
-        }
 
+            switch (opcion)
+            {
+                case 1:
+                    menuRetiro();
+                    modo.Modo1();
+                    Console.ReadKey();
+                    break;
+                case 2:
+                    menuRetiro();
+                    modo.Modo2();
+                    Console.ReadKey();
+                    break;
+                case 3:
+                    menuRetiro();
+                    modo.Modo3();
+                    Console.ReadKey();
+                    break;
+            }
+        }
         public static void menuRetiro()
         {
             Console.WriteLine("\nIngrese cifra de dinero a retirar, referente al modo de dispensacion. Ejemplo:1000 :");
@@ -41,15 +61,16 @@ namespace CajeroAutomatico
 
             if (cifra % 2 == 0 && cifra > 100)
             {
-
+                modo.Cifra = cifra;
             }
             else
             {
-                Console.WriteLine("Debe ingresar una cifra adecuada al monto de dispensacion. Pulse enter");
+                Console.WriteLine("\nDebe ingresar una cifra adecuada al monto de dispensacion. Pulse enter");
                 Console.ReadKey();
                 menuRetiro();
             }
         }
+
 
         public static void salida(int salir)
         {
@@ -59,7 +80,6 @@ namespace CajeroAutomatico
                     Console.Clear();
                     menu();
                     break;
-
                 case 2:
                     Console.WriteLine("Gracias por Preferirnos. Pulse Enter");
                     Console.ReadKey();
